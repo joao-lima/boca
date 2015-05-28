@@ -56,7 +56,7 @@ if(!isset($_POST['noflush'])) {
 	echo "</head><body><table border=1 width=\"100%\">\n";
 	echo "<tr><td nowrap bgcolor=\"eeee00\" align=center>";
 	echo "<img src=\"../images/smallballoontransp.png\" alt=\"\">";
-	echo "<font color=\"#000000\">BOCA</font>";
+	echo "<font color=\"#000000\">BOCA - ERAD-SP</font>";
 	echo "</td><td bgcolor=\"#eeee00\" width=\"99%\">\n";
 	echo "Username: " . $_SESSION["usertable"]["userfullname"] . " (site=".$_SESSION["usertable"]["usersitenumber"].")<br>\n";
 	list($clockstr,$clocktype)=siteclock();
