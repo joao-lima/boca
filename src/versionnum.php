@@ -1,5 +1,5 @@
 <?php
-$BOCAVERSION='boca-1.5.10';
-$YEAR='2015';
+$BOCAVERSION='boca-parallel-0.2';
+$YEAR='2016';
 ?>
 
