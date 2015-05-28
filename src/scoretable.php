@@ -178,7 +178,7 @@ if(!$redo) {
 	if($strtmp=="") $redo=TRUE;
 }
 if($redo) {
-	$strtmp = "<script language=\"JavaScript\" src=\"" . $loc . "/../hide.js\"></script>\n";
+	$strtmp = "<script language=\"JavaScript\" src=\"" . $loc . "../hide.js\"></script>\n";
 	$pr = DBGetProblems($_SESSION["usertable"]["contestnumber"]);
 
 	$ct=DBGetActiveContest();
@@ -233,7 +233,7 @@ if($redo) {
 	}
 	if(is_readable($_SESSION["locr"] . $ds . 'private' . $ds . 'score.sep')) {
 		$rf=file($_SESSION["locr"] . $ds . 'private' . $ds . 'score.sep');
-		$strtmp .= "<br><img src=\"$loc/../images/smallballoontransp.png\" alt=\"\" onload=\"javascript:toggleGroup(1)\"> <b>Available scores:</b> \n";
+		$strtmp .= "<br><img src=\"$loc../images/smallballoontransp.png\" alt=\"\" onload=\"javascript:toggleGroup(1)\"> <b>Available scores:</b> \n";
 		for($rfi=1;$rfi<=count($rf);$rfi++) {
 			$lin = explode('#',trim($rf[$rfi-1]));
 			if(isset($lin[1]) && $_SESSION["usertable"]["usertype"]!='admin') {
