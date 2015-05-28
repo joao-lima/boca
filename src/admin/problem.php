@@ -278,7 +278,7 @@ for ($i=0; $i<count($prob); $i++) {
 */
   if ($prob[$i]["color"]!="") {
 	  echo "  <td nowrap>" . $prob[$i]["colorname"] . 
-		  "<img title=\"".$prob[$i]["color"]."\" alt=\"".$prob[$i]["colorname"]."\" width=\"25\" src=\"" . 
+		  "<img title=\"".$prob[$i]["color"]."\" alt=\"".$prob[$i]["colorname"]."\" width=\"25\" src=\".." . 
 		  balloonurl($prob[$i]["color"]) . "\" /></td>\n";
   } else
     echo "  <td nowrap>&nbsp;</td>\n";
