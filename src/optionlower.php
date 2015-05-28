@@ -51,8 +51,8 @@ $a = DBUserInfo($_SESSION["usertable"]["contestnumber"],
 
 ?>
 
-<script language="JavaScript" src="<?php echo $loc; ?>/../sha256.js"></script>
-<script language="JavaScript" src="<?php echo $loc; ?>/../hex.js"></script>
+<script language="JavaScript" src="<?php echo $loc; ?>../sha256.js"></script>
+<script language="JavaScript" src="<?php echo $loc; ?>../hex.js"></script>
 <script language="JavaScript">
 function computeHASH()
 {
