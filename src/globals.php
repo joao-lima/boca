@@ -256,6 +256,7 @@ function LOGLevel($msg,$level,$dodb=true) {
 }
 //retorna data e hora atuais
 function now () {
+	date_default_timezone_set('America/Sao_Paulo');
 	return date('H\:i:s T \- d/M/Y');
 }
 //retorna data e hora em seg convertida para padrao
