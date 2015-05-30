@@ -41,7 +41,7 @@ if(is_readable($bocadir . $ds . '..' .$ds . 'db.php')) {
 if (getIP()!="UNKNOWN" || php_sapi_name()!=="cli") exit;
 if(system('test "`id -u`" -eq "0"',$retval)===false || $retval!=0) {
 	echo "Must be run as root\n";
-	exit;
+	//exit;
 }
 
 ini_set('memory_limit','600M');
@@ -354,13 +354,13 @@ if($retval != 0) {
 		$zip->close();
 		if(chmod($dir . $ds . 'output', 0700)==false || chown($dir . $ds . 'output','root') == false) {
 			echo "Failed to chown/chdir the output folder -- please check the system and problem package\n";
-			DBGiveUpRunAutojudging($contest, $site, $number, $ip, "error: chown/chmod failed for output (99)");
-			continue;
+//			DBGiveUpRunAutojudging($contest, $site, $number, $ip, "Autojuging error: chown/chmod failed for output (99)");
+//			continue;
 		}
 		if(chmod($dir . $ds . 'compare', 0700)==false || chown($dir . $ds . 'compare','root') == false) {
 			echo "Failed to chown/chdir the output folder -- please check the system and problem package\n";
-			DBGiveUpRunAutojudging($contest, $site, $number, $ip, "error: chown/chmod failed for output (99)");
-			continue;
+//			DBGiveUpRunAutojudging($contest, $site, $number, $ip, "Autojuging error: chown/chmod failed for output (99)");
+//			continue;
 		}
 	} else {
 		echo "Failed to unzip the file (inputs) -- please check the problem package\n";
