@@ -379,7 +379,7 @@ int main(int argc, char **argv) {
 	  fprintf(stderr,"ERROR %s\n",strerror(errno));
 	  fprintf(stderr,"%s: unable to chroot to directory %s\n",
 			  argv[0], rootdir); 
-    exit(4); 
+    //exit(4); 
   } 
   /* change the root directory (ZP: and working dir, in not root)*/
   if(curdir[0] && chdir(curdir)) { 
