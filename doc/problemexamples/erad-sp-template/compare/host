@@ -39,7 +39,7 @@ if [ "$?" == "0" ]; then
   echo "Files match exactly"
   exit 4
 fi
-diff -q <(tr -d '\r' <"$1") <(tr -d '\r' <"$1") >/dev/null 2>/dev/null
+diff -q <(tr -d '\r' <"$1") <(tr -d '\r' <"$2") >/dev/null 2>/dev/null
 if [ "$?" == "0" ]; then
   echo -e "diff -q <(tr -d '\\r' <\"$1\") <(tr -d '\\r' <\"$1\") # files match"
   echo -e "Files dont match just because LF != CR+LF"
