@@ -111,8 +111,8 @@ cp "$1" run.exe 2>/dev/null
 
 file run.exe | grep -iq "statically linked"
 if [ "$?" != "0" ]; then
-  echo "Aborting because $1 is not statically linked"
-  exit 47
+  echo "Warning: $1 is not statically linked"
+#  exit 47
 fi
 
 cdir=`pwd`
