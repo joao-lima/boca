@@ -41,8 +41,8 @@ if [ "$?" == "0" ]; then
 fi
 diff -q <(tr -d '\r' <"$1") <(tr -d '\r' <"$1") >/dev/null 2>/dev/null
 if [ "$?" == "0" ]; then
-  echo -e "diff -q <(tr -d '\r' <\"$1\") <(tr -d '\r' <\"$1\") # files match"
-  echo -e "diff \"$1\" \"$2\" # files dont match because of LF - CR+LF"
+  echo -e "diff -q <(tr -d '\\r' <\"$1\") <(tr -d '\\r' <\"$1\") # files match"
+  echo -e "Files dont match just because LF != CR+LF"
   exit 4
 fi
 diff -q -b "$1" "$2" >/dev/null 2>/dev/null
