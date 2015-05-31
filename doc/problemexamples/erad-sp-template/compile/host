@@ -117,6 +117,12 @@ fi
 cd src
 #"\$cc" -static -O2 -o ../$exe $name -lm
 "\$cc"
+ret=\$?
+if [ "\$ret" != "0" ]; then
+  echo \$ret > ../compileit.retcode
+  exit 0
+fi
+cp ./$exe ../
 echo \$? > ../compileit.retcode
 exit 0
 EOF
