@@ -111,13 +111,13 @@ cp "$1" run.exe 2>/dev/null
 
 file run.exe | grep -iq "statically linked"
 if [ "$?" != "0" ]; then
-  echo "Warning: $1 is not statically linked"
+  echo "Warning: $1 is not statically linked" >&2
 #  exit 47
 fi
 
 cdir=`pwd`
 echo "Current directory is $cdir -- chrooting on it" >&2
-$sf -a -F10 -f$maxf -r$nruns -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe
+$sf -p -a -F10 -f$maxf -r$nruns -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe
 ret=$?
 if [ $ret -gt 10 ]; then
 	ret=0
