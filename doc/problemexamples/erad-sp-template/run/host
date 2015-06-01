@@ -117,11 +117,31 @@ fi
 
 cdir=`pwd`
 echo "Current directory is $cdir -- chrooting on it" >&2
-$sf -p -a -F10 -f$maxf -r$nruns -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe
+echo "Running $sf to check execution" >&2
+$sf -p -a -F10 -f$maxf -r1 -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe
 ret=$?
 if [ $ret -gt 10 ]; then
-	ret=0
+  ret=0
+elif [ "$ret" -ne "0" ]; then
+  if [ -f stdout0 ]; then
+    cat stdout0
+  fi
+  exit $ret
 fi
+echo "Collecting time..." >&2
+for run in $(seq 1 $nruns); do
+  { time -p ./run.exe < stdin0 &> /dev/null ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
+done
+awk -f - times.txt <<-EOF >> times.txt
+{
+	for(i=1; i<=NF; i++) {
+		sum   +=  \$i;
+	}
+}
+END {
+	printf "%.6f\n", sum/NR;
+}
+EOF
 if [ -f stdout0 ]; then
   cat stdout0
 fi
