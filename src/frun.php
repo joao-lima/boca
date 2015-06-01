@@ -55,6 +55,7 @@ CREATE TABLE \"runtable\" (
 \"autoanswer\" text DEFAULT '',
 \"autostdout\" oid DEFAULT NULL,
 \"autostderr\" oid DEFAULT NULL,
+\"autoexecutiontime\" float DEFAULT 0,  -- campo que armazena a media do tempo de execucao
 
 \"updatetime\" int4 DEFAULT EXTRACT(EPOCH FROM now()) NOT NULL, -- (indica a ultima atualizacao no registro)
 CONSTRAINT \"run_pkey\" PRIMARY KEY (\"contestnumber\", \"runsitenumber\", \"runnumber\"),
@@ -442,7 +443,7 @@ function DBGetRunToAutojudging($contest, $ip) {
 	LOGLevel("Autojudging got a run (run=${a["number"]}, site=${a["site"]}, contest=${a["contest"]})", 3);
 	return $a;
 }
-function DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $stdout, $stderr, $retval=0) {
+function DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $time, $stdout, $stderr, $retval=0) {
 	if($retval=="") $retval=0;
 	$c = DBConnect();
 	DBExec($c, "begin work", "DBUpdateRunAutojudging(transaction)");
@@ -474,7 +475,7 @@ function DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $stdout,
 
 	if($answer=="") $answer="null";
 	else $answer="'$answer'";
-	DBExec($c, "update runtable set autoenddate=$t, autoanswer=$answer, autostdout=$oid1, autostderr=$oid2, " .
+	DBExec($c, "update runtable set autoenddate=$t, autoanswer=$answer, autoexecutiontime=$time, autostdout=$oid1, autostderr=$oid2, " .
 		   "updatetime=$t " .
 		   "where contestnumber=$contest and runnumber=$number and runsitenumber=$site",
 		   "DBUpdateRunAutojudging(update run)");
