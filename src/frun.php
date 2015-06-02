@@ -475,7 +475,7 @@ function DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $executi
 
 	if($answer=="") $answer="null";
 	else $answer="'$answer'";
-	DBExec($c, "update runtable set autoenddate=$t, autoanswer=$answer, autoexecutiontime=$executiontime, autostdout=$oid1, autostderr=$oid2 " .
+	DBExec($c, "update runtable set autoenddate=$t, autoanswer=$answer, autoexecutiontime=$executiontime, autostdout=$oid1, autostderr=$oid2, " .
 		   "updatetime=$t " .
 		   "where contestnumber=$contest and runnumber=$number and runsitenumber=$site",
 		   "DBUpdateRunAutojudging(update run)");

@@ -215,6 +215,7 @@ else
       echo "<td width=\"83%\">unavailable</td>";
 ?>
   </tr>
+  <tr>
         <td width="27%" align=right><b>Execution time:</b></td>
         <td width="83%">
 <?php
