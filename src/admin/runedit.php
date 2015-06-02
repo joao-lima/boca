@@ -291,8 +291,7 @@ else
     if($a["autobegin"]!="" && $a["autoend"]=="")
     echo "in progress";
     else if($a["autoend"]!="") {
-        if($a["autoanswer"]!="") echo $a["autoexecutiontime"];
-        else echo "Autojudging error";
+        echo $a["autoexecutiontime"];
     } else
     echo "unavailable";
 ?>

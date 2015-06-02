@@ -349,7 +349,7 @@ function DBGetRunToAnswerC($number,$site,$contest,$chief) {
 		"r.rundata as sourceoid, r.runfilename as sourcename, l.langnumber as langnumber, " .
 		"p.problemname as problemname, p.problemnumber as problemnumber, l.langname as language, l.langextension as extension, " .
 		"r.autoip as autoip, r.autobegindate as autobegin, r.autoenddate as autoend, r.autoanswer as autoanswer, ".
-		"r.autostdout as autostdout, r.autostderr as autostderr ".
+		"r.autostdout as autostdout, r.autostderr as autostderr, r.autoexecutiontime as autoexecutiontime ".
 
 		"from runtable as r, problemtable as p, langtable as l " .
 		"where r.contestnumber=$contest and p.contestnumber=r.contestnumber and " .
