@@ -367,6 +367,7 @@ if($retval != 0) {
 		DBGiveUpRunAutojudging($contest, $site, $number, $ip, "error: problem package file is invalid (8)");
 		continue;
 	}
+	$executiontime = 0.0;
 	$retval = 0;
 	$script = $dir . $ds . 'run' . $ds . $run["extension"];
 	if(!is_file($script)) {
@@ -480,6 +481,24 @@ if($retval != 0) {
 						@chown($fne,"nobody");
 						@chmod($fne,0755);
 					}
+
+					// recover execution time
+					if(is_file($dir . $ds . 'tmp' . $ds . 'times.txt')) {
+						handle = fopen($dir . $ds . 'tmp' . $ds . 'times.txt', "r");
+						if ($handle) {
+							while (($line = fgets($handle)) !== false) {
+							$executiontime = doubleval($line);
+						}
+							fclose($handle);
+						} else {
+							echo "==> ERROR opening execution time file " . $dir . $ds . "times.txt - skipping it!\n";
+							$$executiontime = 0.0;
+						}
+					} else {
+						echo "==> ERROR reading execution time file " . $dir . $ds . "times.txt - skipping it!\n";
+						$$executiontime = 0.0;
+					}
+
 					// retval 5 (presentation) and retval 6 (wronganswer) are already compatible with the compare script
 					if($localretval < 4 || $localretval > 6) {
 						// contact staff
@@ -619,7 +638,7 @@ echo "Sending results to server...\n";
 //echo "out==> "; system("tail -n1 ". $dir.$ds.'allout');
 //echo "err==> "; system("tail -n1 ". $dir.$ds.'allerr');
 $answer=substr($answer,0,200);
-DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, 0.0, $dir.$ds.'allout', $dir.$ds.'allerr', $retval);
+DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, 0.0, $dir.$ds.'allout', $dir.$ds.'allerr', $executiontime, $retval);
 LogLevel("Autojudging: answered '$answer' (run=$number, site=$site, contest=$contest)",3);
 echo "Autojudging answered '$answer' (contest=$contest, site=$site, run=$number)\n";
 }
