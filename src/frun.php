@@ -443,7 +443,7 @@ function DBGetRunToAutojudging($contest, $ip) {
 	LOGLevel("Autojudging got a run (run=${a["number"]}, site=${a["site"]}, contest=${a["contest"]})", 3);
 	return $a;
 }
-function DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $time, $stdout, $stderr, $executiontime=0, $retval=0) {
+function DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $executiontime, $stdout, $stderr, $retval=0) {
 	if($retval=="") $retval=0;
 	$c = DBConnect();
 	DBExec($c, "begin work", "DBUpdateRunAutojudging(transaction)");
@@ -475,7 +475,7 @@ function DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $time, $
 
 	if($answer=="") $answer="null";
 	else $answer="'$answer'";
-	DBExec($c, "update runtable set autoenddate=$t, autoanswer=$answer, autoexecutiontime=$time, autostdout=$oid1, autostderr=$oid2, autoexecutiontime=$$executiontime " .
+	DBExec($c, "update runtable set autoenddate=$t, autoanswer=$answer, autoexecutiontime=$executiontime, autostdout=$oid1, autostderr=$oid2 " .
 		   "updatetime=$t " .
 		   "where contestnumber=$contest and runnumber=$number and runsitenumber=$site",
 		   "DBUpdateRunAutojudging(update run)");
