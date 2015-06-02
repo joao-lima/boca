@@ -215,7 +215,19 @@ else
       echo "<td width=\"83%\">unavailable</td>";
 ?>
   </tr>
-  <tr> 
+        <td width="27%" align=right><b>Execution time:</b></td>
+        <td width="83%">
+<?php
+    if($a["autobegin"]!="" && $a["autoend"]=="")
+    echo "in progress";
+    else if($a["autoend"]!="") {
+        echo $a["autoexecutiontime"];
+    } else
+    echo "unavailable";
+?>
+        </td>
+  </tr>
+  <tr>
         <td width="27%" align=right><b>Standard output:</b></td>
         <td width="83%"> 
 <?php 
