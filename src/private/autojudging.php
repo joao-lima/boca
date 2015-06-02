@@ -484,7 +484,7 @@ if($retval != 0) {
 
 					// recover execution time
 					if(is_file($dir . $ds . 'tmp' . $ds . 'times.txt')) {
-						handle = fopen($dir . $ds . 'tmp' . $ds . 'times.txt', "r");
+						$handle = fopen($dir . $ds . 'tmp' . $ds . 'times.txt', "r");
 						if ($handle) {
 							while (($line = fgets($handle)) !== false) {
 							$executiontime = doubleval($line);
@@ -638,7 +638,7 @@ echo "Sending results to server...\n";
 //echo "out==> "; system("tail -n1 ". $dir.$ds.'allout');
 //echo "err==> "; system("tail -n1 ". $dir.$ds.'allerr');
 $answer=substr($answer,0,200);
-DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, 0.0, $dir.$ds.'allout', $dir.$ds.'allerr', $executiontime, $retval);
+DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $executiontime, $dir.$ds.'allout', $dir.$ds.'allerr', $retval);
 LogLevel("Autojudging: answered '$answer' (run=$number, site=$site, contest=$contest)",3);
 echo "Autojudging answered '$answer' (contest=$contest, site=$site, run=$number)\n";
 }
