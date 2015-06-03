@@ -154,7 +154,7 @@ for ($i=0; $i<count($run); $i++) {
     echo "  <td>" . $run[$i]["answer"];
     if($run[$i]['yes']=='t') {
           echo " <img alt=\"".$run[$i]["colorname"]."\" width=\"10\" ".
-			  "src=\"" . balloonurl($run[$i]["color"]) ."\" />";
+			  "src=\"../" . balloonurl($run[$i]["color"]) ."\" />";
     }
     echo "</td>\n";
   }
