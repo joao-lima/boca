@@ -69,7 +69,7 @@ if(file_exists($runtmp)) {
 		$n=count($rn);
 		for($i=1; $i<$n-1;$i++) {
 			echo "<img alt=\"".$rn[$i]."\" width=\"10\" ".
-				"src=\"" . balloonurl($rn[$i+1]) . "\" />\n";
+				"src=\"../" . balloonurl($rn[$i+1]) . "\" />\n";
 			$i++;
 		}
 	} else unset($strtmp);
@@ -81,7 +81,7 @@ if($doslow) {
 	$n=count($run);
 	for($i=0; $i<$n;$i++) {
 		echo "<img alt=\"".$run[$i]["colorname"]."\" width=\"10\" ".
-			"src=\"" . balloonurl($run[$i]["color"]) . "\" />\n";
+			"src=\"../" . balloonurl($run[$i]["color"]) . "\" />\n";
 	}
 }
 
