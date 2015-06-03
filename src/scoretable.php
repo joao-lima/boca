@@ -210,11 +210,11 @@ if($redo) {
 			$strtmp .= "<td width=200>";
 			if($rn[$i]["yes"]=='t') {
 				$strtmp .= "<img alt=\"".$rn[$i]["colorname"].":\" width=\"28\" ".
-					"src=\"" . balloonurl($rn[$i]["color"]) ."\" />";
+					"src=\"../" . balloonurl($rn[$i]["color"]) ."\" />";
 			}
 			else
 				$strtmp .= "<img alt=\"\" width=\"22\" ".
-					"src=\"$loc/images/bigballoontransp-blink.gif\" />\n";
+					"src=\"$loc../images/bigballoontransp-blink.gif\" />\n";
 			$strtmp .= $rn[$i]["problemname"] . ": " . $rn[$i]["userfullname"] . " (" . ((int) ($rn[$i]["time"]/60)) . "')";
 			$strtmp .= "</td>\n";
 		}
@@ -333,12 +333,12 @@ if($redo) {
 //					$name=$score[$e]["problem"][$ee]["name"];
 						if(isset($score[$e]["problem"][$ee]["solved"]) && $score[$e]["problem"][$ee]["solved"]) {
 							$strtmp .= "<img alt=\"".$score[$e]["problem"][$ee]["colorname"].":\" width=\"18\" ".
-								"src=\"" . balloonurl($score[$e]["problem"][$ee]["color"]) ."\" />";
+								"src=\"../" . balloonurl($score[$e]["problem"][$ee]["color"]) ."\" />";
 						}
 						else {
 							if($level>3 && isset($score[$e]["problem"][$ee]["judging"]) && $score[$e]["problem"][$ee]["judging"])
 								$strtmp .= "<img alt=\"\" width=\"18\" ".
-									"src=\"$loc/images/bigballoontransp-blink.gif\" />\n";
+									"src=\"$loc../images/bigballoontransp-blink.gif\" />\n";
 							else
 								$strtmp .= "&nbsp;";
 						}
