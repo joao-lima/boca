@@ -270,7 +270,7 @@ function DBScoreSite($contest, $site, $verifylastmile, $hor=-1, $data=null) {
 		}
 		$r = DBExec($c, "select r.usernumber as user, p.problemname as problemname, r.runproblem as problem, ".
 					"p.problemcolor as color, p.problemcolorname as colorname, " .
-					"r.rundatediff as time, r.rundatediffans as anstime, a.yes as yes, r.runanswer as answer from " .
+					"r.rundatediff as time, r.rundatediffans as anstime, a.yes as yes, r.runanswer as answer, r.autoexecutiontime as exectime from " .
 					"runtable as r, answertable as a, problemtable as p where r.runanswer=a.answernumber and " .
 					"a.contestnumber=$contest and p.problemnumber=r.runproblem and p.contestnumber=$contest and " .
 					"r.contestnumber=$contest and r.runsitenumber=$site and (r.runstatus ~ 'judged' or r.runstatus ~ 'judged+') and " .
@@ -297,41 +297,44 @@ function DBScoreSite($contest, $site, $verifylastmile, $hor=-1, $data=null) {
 		$user = $a[$i]["user"];
 		$problem = $a[$i]["problem"];
 		$time = 0;
-		$k = 0;
-		if(!isset($resp[$user])) { $i++; continue; }
-		$resp[$user]["user"] = $user;
-		$resp[$user]["site"] = $site;
-		$resp[$user]["problem"][$problem]["name"] = $a[$i]["problemname"];
-		$resp[$user]["problem"][$problem]["color"] = $a[$i]["color"];
-		$resp[$user]["problem"][$problem]["colorname"] = $a[$i]["colorname"];
-		$resp[$user]["problem"][$problem]["solved"] = false;
-		$resp[$user]["problem"][$problem]["judging"] = false;
-		$resp[$user]["problem"][$problem]["time"] = 0;
-		$resp[$user]["problem"][$problem]["penalty"] = 0;
-		$resp[$user]["problem"][$problem]["count"] = 0;
-
-		while ($i<$n && $a[$i]["anstime"] <= $ta && $a[$i]["user"]==$user && $a[$i]["problem"]==$problem && $a[$i]["yes"]!='t') {
-			$time += (int) (($ct["contestpenalty"])/60);
-			$k++;
-			$i++;
+		if(!isset($resp[$user])) {
+			$resp[$user]["user"] = $user;
+			$resp[$user]["site"] = $site;
+			$resp[$user]["problem"][$problem]["name"] = $a[$i]["problemname"];
+			$resp[$user]["problem"][$problem]["color"] = $a[$i]["color"];
+			$resp[$user]["problem"][$problem]["colorname"] = $a[$i]["colorname"];
+			$resp[$user]["problem"][$problem]["solved"] = false;
+			$resp[$user]["problem"][$problem]["judging"] = false;
+			$resp[$user]["problem"][$problem]["time"] = 0;
+			$resp[$user]["problem"][$problem]["penalty"] = 0;
+			$resp[$user]["problem"][$problem]["count"] = 0;
 		}
-		
-		$resp[$user]["problem"][$problem]["count"] = $k;
-		if ($i>=$n) break; 
-		if($a[$i]["anstime"] <= $ta && $a[$i]["user"]==$user && $a[$i]["problem"]==$problem && $a[$i]["yes"]=='t') {
-			$timet = (int) (($a[$i]["time"])/60);
+
+		$last_i = -1;
+		while($i<$n && $a[$i]["anstime"] <= $ta && $a[$i]["user"]==$user && $a[$i]["problem"]==$problem) {
+			while ($i<$n && $a[$i]["anstime"] <= $ta && $a[$i]["user"]==$user && $a[$i]["problem"]==$problem && $a[$i]["yes"]!='t') {
+				$resp[$user]["problem"][$problem]["count"]++;
+				$i++;
+			}
+			while ($i<$n && $a[$i]["anstime"] <= $ta && $a[$i]["user"]==$user && $a[$i]["problem"]==$problem && $a[$i]["yes"]=='t') {
+				$resp[$user]["problem"][$problem]["count"]++;
+				$last_i = $i;
+				$i++;
+			}
+		}
+
+		if ($i>=$n) break;
+
+		if($last_i > 0) {
+			$timet = (int) (($a[$last_i]["time"])/60);
 			if(!isset($resp[$user]["first"]) || $timet < $resp[$user]["first"])
 				$resp[$user]["first"] = $timet;
 			$time += $timet;
 			$resp[$user]["problem"][$problem]["time"] = $timet;
 			$resp[$user]["problem"][$problem]["penalty"] = $time;
 			$resp[$user]["problem"][$problem]["solved"] = true;
-			$resp[$user]["problem"][$problem]["count"]++;
-			$resp[$user]["totaltime"] += $time;
+			$resp[$user]["totaltime"] += $a[$last_i]["exectime"];
 			$resp[$user]["totalcount"]++;
-		}
-		while ($i<$n && $a[$i]["user"]==$user && $a[$i]["problem"]==$problem) {
-			$i++;
 		}
 	}
 
