@@ -127,7 +127,7 @@ if [ ! -x "$relf" ]; then
   fi
 fi
 mchn=`$relf -h run.exe | grep Machine | awk '{print $3}'`
-if [ "$mchn" -ne "K1OM" -a "$mchn" -ne "0xb5" ]; then
+if [ "$mchn" != "K1OM" ] && [ "$mchn" != "0xb5" ]; then
   echo "Runtime error: not a Xeon Phi binary"
   exit 47
 fi 
@@ -140,7 +140,9 @@ scp stdin0 mic0:/tmp 1>&2
 cdir=`/tmp`
 echo "Current directory is $cdir -- chrooting on it" >&2
 echo "Running /tmp/$sfexec to check execution" >&2
-ssh mic0 'cd /tmp ; LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ ./$sfexec -p -a -F10 -f$maxf -r1 -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe'
+echo "cd /tmp ; LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ ./$sfexec -p -a -F10 -f$maxf -r1 -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe ----> NOT WORKING!!!! WHY!?!?!" >&2
+# ssh mic0 "cd /tmp ; LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ ./$sfexec -p -a -F10 -f$maxf -r1 -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe"
+ssh mic0 "LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ /tmp/run.exe < /tmp/stdin0 1> /tmp/stdout0 2> /tmp/stderr0"
 ret=$?
 
 echo "Copying files from mic0" >&2
@@ -157,7 +159,7 @@ elif [ "$ret" -ne "0" ]; then
 fi
 echo "Collecting time..." >&2
 for run in $(seq 1 $nruns); do
-  { ssh mic0 'LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ time -p /tmp/run.exe < stdin0 > /dev/null' ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
+  { ssh mic0 'LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ time -p /tmp/run.exe < /tmp/stdin0 > /dev/null' ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
 done
 awk -f - times.txt <<-EOF >> times.txt
 {
