@@ -129,7 +129,7 @@ fi
 mchn=`$relf -h run.exe | grep Machine | awk '{print $3}'`
 if [ "$mchn" != "K1OM" ] && [ "$mchn" != "0xb5" ]; then
   echo "Runtime error: not a Xeon Phi binary"
-  exit 47
+  exit 2
 fi 
 
 echo "Copying files to mic0" >&2
@@ -171,7 +171,8 @@ END {
 	printf "%.6f\n", sum/NR;
 }
 EOF
-
+echo "Running times:" >&2
+cat times.txt >&2
 echo "Deleting files from mic0" >&2
 ssh mic0 'cd /tmp ; rm run.exe $sfexec std*' 1>&2
 
