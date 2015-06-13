@@ -142,6 +142,9 @@ END {
 	printf "%.6f\n", sum/NR;
 }
 EOF
+echo "Running times:" >&2
+cat times.txt >&2
+
 if [ -f stdout0 ]; then
   cat stdout0
 fi
