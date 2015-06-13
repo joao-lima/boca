@@ -288,7 +288,7 @@ if($redo) {
 		for($i=0;$i<count($pr);$i++)
 			$strtmp .= "<td nowrap><b>" . $pr[$i]["problem"] . " &nbsp;</b></td>";
 	} 
-	$strtmp .= "<td><b>Total</b></td>\n";
+	$strtmp .= "<td><b>Total<sup>*</sup></b></td>\n";
 	$strtmp .= "</tr>\n";
 	$n=0;
 	reset($score);
@@ -380,6 +380,7 @@ if($redo) {
 		if(!$des) 
 			if($level>0) $strtmp .= "<br><font color=\"#ff0000\">P.S. Problem names are hidden.</font>";
 			else  $strtmp .= "<br><font color=\"#ff0000\">P.S. Problem data are hidden.</font>";
+		$strtmp .= "<br/><sup>*</sup>These total values can change any time due to (re)judge process.<b></b>";
 	}
 
 	$conf=globalconf();
