@@ -487,8 +487,10 @@ if($retval != 0) {
 						$handle = fopen($dir . $ds . 'tmp' . $ds . 'times.txt', "r");
 						if ($handle) {
 							while (($line = fgets($handle)) !== false) {
-							$executiontime = doubleval($line);
-						}
+								$executiontime = doubleval($line);
+							}
+							if($executiontime <= 0.000001)
+								$executiontime = 0.000001;
 							fclose($handle);
 						} else {
 							echo "==> ERROR opening execution time file " . $dir . $ds . "times.txt - skipping it!\n";
