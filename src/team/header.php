@@ -67,7 +67,13 @@ if(file_exists($runtmp)) {
 		$doslow=false;
 		$rn=explode("\t",$strcolors);
 		$n=count($rn);
-		for($i=1; $i<$n-1;$i++) {
+		for($i=1; $i<$n-1; $i++) {
+			if($i != 1) {
+				if($rn[$i] === $rn[$i-2]) {
+					$i++;
+					continue;
+				}
+			}
 			echo "<img alt=\"".$rn[$i]."\" width=\"10\" ".
 				"src=\"../" . balloonurl($rn[$i+1]) . "\" />\n";
 			$i++;
@@ -80,6 +86,11 @@ if($doslow) {
 						 $_SESSION["usertable"]["usernumber"]);
 	$n=count($run);
 	for($i=0; $i<$n;$i++) {
+		if($i != 0) {
+			if($run[$i]["colorname"] === $run[$i-1]["colorname"]) {
+				continue;
+			}
+		}
 		echo "<img alt=\"".$run[$i]["colorname"]."\" width=\"10\" ".
 			"src=\"../" . balloonurl($run[$i]["color"]) . "\" />\n";
 	}
