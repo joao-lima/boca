@@ -323,9 +323,7 @@ function DBScoreSite($contest, $site, $verifylastmile, $hor=-1, $data=null) {
 			}
 		}
 
-		if ($i>=$n) break;
-
-		if($last_i > 0) {
+		if($last_i >= 0) {
 			$timet = (int) (($a[$last_i]["time"])/60);
 			if(!isset($resp[$user]["first"]) || $timet < $resp[$user]["first"])
 				$resp[$user]["first"] = $timet;
