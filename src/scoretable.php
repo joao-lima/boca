@@ -368,8 +368,8 @@ if($redo) {
 			}
 			if(!$des) $strtmp .= "&nbsp;</td>\n";
 		}
-		$strtmp .= "  <td nowrap>" . 
-			$score[$e]["totalcount"] . " (" . $score[$e]["totaltime"] . ")</td>\n";
+		$strtmp .= "  <td nowrap>" . $score[$e]["totalcount"] . " (";
+		$strtmp .= sprintf("%.6f", $score[$e]["totaltime"]) . ")</td>\n";
 		$strtmp .= " </tr>\n";
 		$n++;
 	  }
