@@ -626,6 +626,8 @@ if($retval == 0 || $retval > 9) {
 echo "Sending results to server...\n";
 //echo "out==> "; system("tail -n1 ". $dir.$ds.'allout');
 //echo "err==> "; system("tail -n1 ". $dir.$ds.'allerr');
+if (!isset($executiontime))
+	$executiontime = 0.0;
 DBUpdateRunAutojudging($contest, $site, $number, $ip, $answer, $executiontime, $dir.$ds.'allout', $dir.$ds.'allerr', $retval);
 LogLevel("Autojudging: answered '$answer' (run=$number, site=$site, contest=$contest)",3);
 echo "Autojudging answered '$answer' (contest=$contest, site=$site, run=$number)\n";
