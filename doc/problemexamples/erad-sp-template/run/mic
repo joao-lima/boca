@@ -153,9 +153,9 @@ if [ $ret -gt 10 ]; then
   ret=0
 elif [ "$ret" -ne "0" ]; then
   if [ -f stdout0 ]; then
-    cat stdout0
+    tail -n 1 stdout0
   fi
-  exit $ret
+  exit 10
 fi
 echo "Collecting time..." >&2
 for run in $(seq 1 $nruns); do
