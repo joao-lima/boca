@@ -44,7 +44,7 @@ tr -d '\r' <"$2" 1>fc2.tmp 2>/dev/null
 diff -q fc1.tmp fc2.tmp >/dev/null 2>/dev/null
 rm fc1.tmp fc2.tmp
 if [ "$?" == "0" ]; then
-  echo -e "diff -q <(tr -d \'\\r\' <\"$1\") <(tr -d \'\\r\' <\"$1\") # files match"
+  echo -e "diff -q <(tr -d \'\\r\' <\"$1\") <(tr -d \'\\r\' <\"$2\") # files match"
   echo -e "Files dont match just because LF != CR+LF"
   exit 4
 fi
