@@ -224,6 +224,7 @@ if (isset($_POST["Submit3"]) && isset($_POST["problemnumber"]) && is_numeric($_P
   <td><b>Problem #</b></td>
   <td><b>Short Name</b></td>
   <td><b>Fullname</b></td>
+  <td><b>Basetime</b></td>
   <td><b>Basename</b></td>
   <td><b>Descfile</b></td>
   <td><b>Package file</b></td>
@@ -250,6 +251,7 @@ for ($i=0; $i<count($prob); $i++) {
   }
   echo "  <td nowrap>" . $prob[$i]["name"] . "</td>\n";
   echo "  <td nowrap>" . $prob[$i]["fullname"] . "&nbsp;</td>\n";
+  echo "  <td nowrap>" . $prob[$i]["basetime"] . "&nbsp;</td>\n";
   echo "  <td nowrap>" . $prob[$i]["basefilename"] . "&nbsp;</td>\n";
   if (isset($prob[$i]["descoid"]) && $prob[$i]["descoid"] != null && isset($prob[$i]["descfilename"])) {
 	  echo "  <td nowrap><a href=\"../filedownload.php?" . filedownload($prob[$i]["descoid"], $prob[$i]["descfilename"]) . "\">" . 

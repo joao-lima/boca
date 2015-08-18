@@ -39,6 +39,7 @@ CREATE TABLE \"problemtable\" (
                                                 --  clarification em General, por exemplo)
 \"problemcolorname\" varchar(100) DEFAULT '',	  -- nome da cor do problema
 \"problemcolor\" varchar(6) DEFAULT '',		  -- cor do problema, formato html (RGB hexadecimal)
+\"problembasetime\" float DEFAULT 0,  					-- campo que armazena o tempo de execucao do problema na versao sequencial
 \"updatetime\" int4 DEFAULT EXTRACT(EPOCH FROM now()) NOT NULL, -- (indica a ultima atualizacao no registro)
 -- (tabela com os problemas. Se um problema tiver mais que par de arquivos
 -- entrada/solucao, entao colocamos mais que uma linha para ele aqui.)
@@ -140,6 +141,7 @@ function DBGetFullProblemData($contestnumber,$freeproblems=false) {
 			$a[$i]['basefilename']='';
 			$a[$i]['descfilename']='';
 			$a[$i]['fullname']='';
+			$a[$i]['basetime']=0.0;
 		}
 		if($freeproblems && $a[$i]['fake'] != 't') {
 			if(is_readable($ptmp . ".name")) {
@@ -171,7 +173,8 @@ function DBGetFullProblemData($contestnumber,$freeproblems=false) {
 								$descfile=trim(sanitizeText($info['descfile']));
 							$basename=trim(sanitizeText($info['basename']));
 							$fullname=trim(sanitizeText($info['fullname']));
-							if($basename=='' || $fullname=='')
+							$basetime=floatval(trim(sanitizeText($info['basetime']));
+							if($basename=='' || $fullname=='' || $basetime===0 )
 								$failed=3;
 						}
 					} else $failed=4;
@@ -194,19 +197,21 @@ function DBGetFullProblemData($contestnumber,$freeproblems=false) {
 							@unlink($ptmp . ".hash");
 						}
 						if(!$failed) {
-							DBExec($c,"update problemtable set problemfullname='$fullname', problembasefilename='$basename' where problemnumber=$nn and contestnumber=$contestnumber",
+							DBExec($c,"update problemtable set problemfullname='$fullname', problembasefilename='$basename', problembasetime=$basetime where problemnumber=$nn and contestnumber=$contestnumber",
 								   "DBGetFullProblemData(free problem)");
 							$a[$i]['basefilename']=$basename;
 							$a[$i]['fullname']=$fullname;
+							$a[$i]['basetime']=$basetime;
 						}
 					}
 				}
 				if($failed) {
 					$a[$i]['basefilename']='';
 					$a[$i]['descfilename']='';
+					$a[$i]['basetime']=0.0;
 					@unlink($ptmp . ".name");
 					@unlink($ptmp . ".hash");
-					DBExec($c,"update problemtable set problemfullname='', problembasefilename='' where problemnumber=$nn and contestnumber=$contestnumber",
+					DBExec($c,"update problemtable set problemfullname='', problembasefilename='', problembasetime=0.0 where problemnumber=$nn and contestnumber=$contestnumber",
 						   "DBGetFullProblemData(unfree problem)");
 
 					if($failed!=4) {
