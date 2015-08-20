@@ -60,7 +60,7 @@ echo "<script language=\"javascript\" src=\"../reload.js\"></script>\n";
 echo "</head><body onload=\"Comecar()\" onunload=\"Parar()\"><table border=1 width=\"100%\">\n";
 echo "<tr><td nowrap bgcolor=\"#$cc\" align=center>";
 echo "<img src=\"../images/smallballoontransp.png\" alt=\"\">";
-echo "<font color=\"#000000\">BOCA - ERAD-SP</font>";
+echo "<font color=\"#000000\">BOCA - Marathon</font>";
 echo "</td><td bgcolor=\"#$cc\" width=\"99%\">\n";
 echo "Username: " . $_SESSION["usertable"]["userfullname"] . " (site=".$_SESSION["usertable"]["usersitenumber"].")<br>\n";
 list($clockstr,$clocktype)=siteclock();
