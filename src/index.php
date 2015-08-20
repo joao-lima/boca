@@ -116,7 +116,7 @@ if(function_exists("globalconf") && function_exists("sanitizeVariables")) {
             <tr> 
               <td nowrap>
                 <div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">
-				BOCA Login - ERAD-SP</font></div>
+				BOCA Login - Marathon of Parallel Programming</font></div>
               </td>
             </tr>
             <tr>
