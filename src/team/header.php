@@ -145,8 +145,6 @@ echo "  <td align=center width=\"12%\"><a class=menu style=\"font-weight:bold\" 
 echo "  <td align=center width=\"12%\"><a class=menu style=\"font-weight:bold\" href=run.php>Runs</a></td>\n";
 echo "  <td align=center width=\"12%\"><a class=menu style=\"font-weight:bold\" href=score.php>Score</a></td>\n";
 echo "  <td align=center width=\"12%\"><a class=menu style=\"font-weight:bold\" href=clar.php>Clarifications</a></td>\n";
-echo "  <td align=center width=\"12%\"><a class=menu style=\"font-weight:bold\" href=task.php>Tasks</a></td>\n";
-echo "  <td align=center width=\"12%\"><a class=menu style=\"font-weight:bold\" href=files.php>Backups</a></td>\n";
 echo "  <td align=center width=\"12%\"><a class=menu style=\"font-weight:bold\" href=option.php>Options</a></td>\n";
 echo "  <td align=center width=\"12%\"><a class=menu style=\"font-weight:bold\" href=../index.php>Logout</a></td>\n";
 echo " </tr>\n"; 
