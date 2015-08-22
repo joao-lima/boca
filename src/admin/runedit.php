@@ -291,7 +291,7 @@ else
     if($a["autobegin"]!="" && $a["autoend"]=="")
     echo "in progress";
     else if($a["autoend"]!="") {
-        echo $a["autoexecutiontime"];
+        echo sprintf("%.6f", $a["autoexecutiontime"]);
     } else
     echo "unavailable";
 ?>
