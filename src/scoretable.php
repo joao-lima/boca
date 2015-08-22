@@ -247,7 +247,7 @@ if($redo) {
             $grname=explode(' ',$lin);
 			$class=1;
 			reset($score);
-			while(list($e,$c) = each($score)) {
+			for($e=0; $e<count($score); $e++) {
 				if(!isset($score[$e]['classingroup'])) $score[$e]['classingroup']=array();
 				for($k=1;$k<count($grname);$k++) {
 					if($score[$e]['site']==$grname[$k]) {
@@ -291,7 +291,7 @@ if($redo) {
 	$strtmp .= "</tr>\n";
 	$n=0;
 	reset($score);
-	while(list($e, $c) = each($score)) {
+	for($e=0; $e<count($score); $e++) {
 	  reset($score[$e]['classingroup']);
  	  while(list($cg1,$cg2) = each($score[$e]['classingroup'])) {
   	    $strtmp .= " <tr class=\"";

@@ -111,7 +111,8 @@ function DBGetFullProblemData($contestnumber,$freeproblems=false) {
 	$r = DBExec($c, "select p.problemnumber as number, p.problemname as name, p.problemfullname as fullname, " .
 			"p.problembasefilename as basefilename, p.fake as fake, " .
 			"p.problemcolor as color, p.problemcolorname as colorname, " .
-			"p.probleminputfilename as inputfilename, p.probleminputfile as inputoid, p.probleminputfilehash as inputhash " .
+			"p.probleminputfilename as inputfilename, p.probleminputfile as inputoid, p.probleminputfilehash as inputhash, " .
+			"p.problembasetime as basetime ".
 			" from problemtable as p " .
 		      "where p.contestnumber=$contestnumber order by p.problemnumber",
 		    "DBGetFullProblemData(get problem)");
