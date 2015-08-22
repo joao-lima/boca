@@ -215,7 +215,7 @@ if($redo) {
 	if(($st = DBSiteInfo($_SESSION["usertable"]["contestnumber"],$_SESSION["usertable"]["usersitenumber"])) == null)
         ForceLoad("../index.php");
 	$strtmp="<br>\n<table width=\"100%\" border=1>\n <tr>\n  <td><b>Run #</b></td>\n<td><b>Time</b></td>\n".
-		"  <td><b>Problem</b></td>\n  <td><b>Language</b></td>\n  <td><b>Answer</b></td>\n  <td><b>File</b></td>\n </tr>\n";
+		"  <td><b>Problem</b></td>\n  <td><b>Language</b></td>\n  <td><b>Answer</b></td>\n  <td><b>File</b></td>\n  <td><b>Output</b></td>\n </tr>\n";
 	$strcolors = "0";
 	$run = DBUserRuns($_SESSION["usertable"]["contestnumber"],
 					  $_SESSION["usertable"]["usersitenumber"],
@@ -247,6 +247,16 @@ if($redo) {
 		$strtmp .= "<td nowrap><a href=\"../filedownload.php?" . filedownload($run[$i]["oid"],$run[$i]["filename"]) . "\">";
 		$strtmp .= $run[$i]["filename"] . "</a>";
 		
+		$strtmp .= "</td>\n";
+		
+		$strtmp .= "<td>";
+		if($run[$i]["output"]!="") {
+			$strtmp .= "<a href=\"#\" class=menu style=\"font-style:italic\" onClick=\"window.open('../filewindow.php?".
+			filedownload($run[$i]["output"],"stdout") ."', 'View output','width=680,height=600,scrollbars=yes,".
+			"resizable=yes')\">view</a>\n";
+		} else {
+			$strtmp .= "unavailable";
+		}
 		$strtmp .= "</td>\n";
 		
 		$strtmp .= " </tr>\n";
