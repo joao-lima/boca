@@ -53,7 +53,7 @@ INPUT.cline { background-color:#000000; font-family:"Courier new", monospace; fo
 TEXTAREA { border:1px solid #555555 }
 TEXTAREA.edit { font-family:"Courier New", Courier, mono;font-size:10pt; background-color:#EFEFEF } 
 SELECT { font-size:12pt;}
-p.link a:hover {background-color: #2B2E21;;color:#fff;}
+p.link a:hover {background-color: #2B2E21;color:#fff;}
 p.link a:link span{display: none;}
 p.link a:visited span{display: none;}
 p.link a:hover span {
