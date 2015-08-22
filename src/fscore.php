@@ -57,7 +57,7 @@ function ordena($a) {
 			}
 		}
 		if ($max==null) break;
-		$r[$i] = $max;
+		$r[count($a)-1-$i] = $max;
 		$a[$maxe] = null;
 	}
 	return $r;
@@ -269,7 +269,7 @@ function DBScoreSite($contest, $site, $verifylastmile, $hor=-1, $data=null) {
 			$resp[$a["usernumber"]]["problem"]=array();
 		}
 		$r = DBExec($c, "select r.usernumber as user, p.problemname as problemname, r.runproblem as problem, ".
-					"p.problemcolor as color, p.problemcolorname as colorname, " .
+					"p.problemcolor as color, p.problemcolorname as colorname, p.problembasetime as basetime, " .
 					"r.rundatediff as time, r.rundatediffans as anstime, a.yes as yes, r.runanswer as answer, r.autoexecutiontime as exectime from " .
 					"runtable as r, answertable as a, problemtable as p where r.runanswer=a.answernumber and " .
 					"a.contestnumber=$contest and p.problemnumber=r.runproblem and p.contestnumber=$contest and " .
@@ -331,7 +331,10 @@ function DBScoreSite($contest, $site, $verifylastmile, $hor=-1, $data=null) {
 			$resp[$user]["problem"][$problem]["time"] = $timet;
 			$resp[$user]["problem"][$problem]["penalty"] = $time;
 			$resp[$user]["problem"][$problem]["solved"] = true;
-			$resp[$user]["totaltime"] += $a[$last_i]["exectime"];
+			$speedup = ($a[$last_i]["basetime"]/$a[$last_i]["exectime"]);
+			if ($speedup < 1.0)
+				$speedup = 1.0;
+			$resp[$user]["totaltime"] += $speedup;
 			$resp[$user]["totalcount"]++;
 		}
 	}
