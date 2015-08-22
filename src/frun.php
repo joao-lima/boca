@@ -870,7 +870,7 @@ function DBUserRuns($contest,$site,$user) {
 				"p.problemcolorname as colorname, p.problemcolor as color, a.yes as yes, " .
 				"p.problemname as problem, r.runstatus as status, l.langname as language, l.langextension as extension, " .
 				"a.runanswer as answer, a.fake as ansfake, r.rundatediffans as anstime, " .
-				"r.runanswer1 as answer1, r.runanswer2 as answer2 " .
+				"r.autostderr as output, r.runanswer1 as answer1, r.runanswer2 as answer2 " .
 				"from runtable as r, problemtable as p, answertable as a, langtable as l " .
 				"where r.contestnumber=$contest and p.contestnumber=r.contestnumber and " .
 				"l.contestnumber=r.contestnumber and l.langnumber=r.runlangnumber and " .
