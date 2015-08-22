@@ -174,7 +174,7 @@ function DBGetFullProblemData($contestnumber,$freeproblems=false) {
 								$descfile=trim(sanitizeText($info['descfile']));
 							$basename=trim(sanitizeText($info['basename']));
 							$fullname=trim(sanitizeText($info['fullname']));
-							$basetime=floatval(trim(sanitizeText($info['basetime']));
+							$basetime=floatval(trim(sanitizeText($info['basetime'])));
 							if($basename=='' || $fullname=='' || $basetime===0 )
 								$failed=3;
 						}
