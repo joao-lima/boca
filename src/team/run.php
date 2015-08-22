@@ -123,9 +123,12 @@ if($redo) {
 		
 		$strtmp .= "<td>";
 		if($run[$i]["output"]!="") {
-			$strtmp .= "<a href=\"#\" class=menu style=\"font-style:italic\" onClick=\"window.open('../filewindow.php?".
-			filedownload($run[$i]["output"],"stdout") ."', 'View output','width=680,height=600,scrollbars=yes,".
-			"resizable=yes')\">view</a>\n";
+			if($run[$i]['yes']!='t')
+				$strtmp .= "<a href=\"#\" class=menu style=\"font-style:italic\" onClick=\"window.open('../filewindow.php?".
+				filedownload($run[$i]["output"],"stderr") ."', 'View output','width=680,height=600,scrollbars=yes,".
+				"resizable=yes')\">view</a>\n";
+			else
+				$strtmp .= "no output";
 		} else {
 			$strtmp .= "unavailable";
 		}
