@@ -111,25 +111,60 @@ cp "$1" run.exe 2>/dev/null
 
 file run.exe | grep -iq "statically linked"
 if [ "$?" != "0" ]; then
-  echo "Warning: $1 is not statically linked" >&2
+  echo "Warning: $1 is not statically linked"
 #  exit 47
 fi
 
 cdir=`pwd`
-echo "Current directory is $cdir -- chrooting on it" >&2
-echo "Running $sf to check execution" >&2
-echo "$sf -p -a -F11 -f$maxf -r1 -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe ----> NOT WORKING!!!! WHY!?!?!" >&2
-./run.exe <$cdir/stdin0 1>$cdir/stdout0 2>$cdir/stderr0
+echo "Current directory is $cdir -- chrooting on it"
+echo "Running $sf to check execution"
+echo "$sf -p -a -F11 -f$maxf -r1 -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe ----> NOT WORKING!!!! WHY!?!?!"
+
+printf -v int_time %.0f "$time"
+time = $((int_time + 1))
+
+cat <<EOF > runit.sh
+#!/bin/bash
+#http://stackoverflow.com/questions/687948/timeout-a-command-in-bash-without-unnecessary-delay
+(
+    ((t = $time))
+
+    while ((t > 0)); do
+        sleep 1
+        kill -0 \$\$ || exit 0
+        ((t -= 1))
+    done
+
+    # Be nice, post SIGTERM first.
+    # The 'exit 2' below will be executed if any preceeding command fails.
+    kill -s SIGTERM \$\$ && kill -0 \$\$ || exit 2
+    sleep 1
+    kill -s SIGKILL \$\$
+    exit 3
+) 2>&1 &
+
+exec ./run.exe <$cdir/stdin0 1>$cdir/stdout0 2>$cdir/stderr0
+exit \$?
+EOF
+chmod 755 runit.sh
+
+./runit.sh 2>&1
 ret=$?
-if [ $ret -gt 10 ]; then
+
+if [ $ret -gt 128 ]; then
+  echo "Output unavailable" 1>&2
+  ret=3
+elif [ $ret -gt 10 ]; then
   ret=0
 elif [ "$ret" -ne "0" ]; then
+  echo "Output unavailable" 1>&2
   if [ -f stdout0 ]; then
     tail -n 1 stdout0
   fi
-  exit 10
+  exit 2
 fi
-echo "Collecting time..." >&2
+
+echo "Collecting time..."
 for run in $(seq 1 $nruns); do
   { time -p ./run.exe < stdin0 &> /dev/null ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
 done
@@ -143,10 +178,7 @@ END {
 	printf "%.6f\n", sum/NR;
 }
 EOF
-echo "Running times:" >&2
-cat times.txt >&2
+echo "Running times:"
+cat times.txt
 
-if [ -f stdout0 ]; then
-  cat stdout0
-fi
 exit $ret

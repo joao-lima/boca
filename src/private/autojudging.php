@@ -445,13 +445,12 @@ if($retval != 0) {
 					@chown($fne,"nobody");
 					@chmod($fne,0755);
 				}
-				if(is_readable('stderr0'))
-					system('/bin/cat stderr0 >> stderr');
 				system('/bin/echo ##### STDERR FOR FILE ' . escapeshellarg($file) . ' >> ' . $dir . $ds . 'allerr');
 				system('/bin/cat stderr >> ' . $dir . $ds . 'allerr');
 				system('/bin/cat stdout > ' . $dir . $ds . 'team' . $ds . escapeshellarg($file));
 				system('/bin/echo ##### STDOUT FOR FILE ' . escapeshellarg($file) . ' >> ' . $dir . $ds . 'allout');
 				system('/bin/cat stdout >> ' . $dir . $ds . 'allout');
+				system('/bin/cat stderr >> ' . $dir . $ds . 'allout');
 				chdir($dir);
 				if($localretval != 0) {
 					list($retval,$answer) = exitmsg($localretval);
