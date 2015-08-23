@@ -173,7 +173,8 @@ ssh mic0 "LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ /tmp/run.exe < /tmp/std
 exit \$?
 EOF
 chmod 755 runit.sh
-./runit.sh 2>&1
+
+{ ./runit.sh ; } 2>&1
 ret=$?
 
 echo "Copying files from mic0"
@@ -182,7 +183,7 @@ scp mic0:/tmp/stderr0 .
 
 if [ $ret -gt 128 ]; then
   echo "Output unavailable" 1>&2
-  ret=3
+  exit 3
 elif [ $ret -gt 10 ]; then
   ret=0
 elif [ "$ret" -ne "0" ]; then
