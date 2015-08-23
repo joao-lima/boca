@@ -163,6 +163,12 @@ elif [ "$ret" -ne "0" ]; then
   exit 2
 fi
 
+stderr=`head -n 1 stderr0`
+if [ "$stderr" != "" ]; then
+  echo $stderr
+  exit 2
+fi
+
 echo "Collecting time..."
 for run in $(seq 1 $nruns); do
   { time -p ./run.exe < stdin0 &> /dev/null ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
