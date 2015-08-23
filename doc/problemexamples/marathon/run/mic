@@ -203,7 +203,7 @@ fi
 
 echo "Collecting time..."
 for run in $(seq 1 $nruns); do
-  { ssh mic0 'LD_LIBRARY_PATH=$MIC_LD_PATH time -p /tmp/run.exe < /tmp/stdin0 > /dev/null' ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
+  { ssh mic0 'export LD_LIBRARY_PATH='$MIC_LD_PATH' ; time -p /tmp/run.exe < /tmp/stdin0 > /dev/null' ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
 done
 awk -f - times.txt <<-EOF >> times.txt
 {
