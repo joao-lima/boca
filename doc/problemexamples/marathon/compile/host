@@ -64,6 +64,7 @@ else
 	cp "../$name" ./ &> ../team_output
 fi
 cd ..
+cat team_output
 
 id -u bocajail >/dev/null 2>/dev/null
 if [ $? == 0 ]; then
