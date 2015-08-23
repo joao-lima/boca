@@ -146,7 +146,9 @@ echo "cd /tmp ; LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ ./$sfexec -p -a -
 # ssh mic0 "cd /tmp ; LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ ./$sfexec -p -a -F10 -f$maxf -r1 -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe"
 
 printf -v int_time %.0f "$time"
-time = $((int_time + 1))
+time=$((int_time + 1))
+
+MIC_LD_PATH=/opt/intel/tools/composerxe/lib/mic/:/opt/intel/composerxe/lib/mic/:$MIC_LD_LIBRARY_PATH
 
 cat <<EOF > runit.sh
 #!/bin/bash
@@ -168,7 +170,7 @@ cat <<EOF > runit.sh
     exit 3
 ) 2>&1 &
 
-ssh mic0 "LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ /tmp/run.exe < /tmp/stdin0 1> /tmp/stdout0 2> /tmp/stderr0"
+ssh mic0 "LD_LIBRARY_PATH=$MIC_LD_PATH /tmp/run.exe < /tmp/stdin0 1> /tmp/stdout0 2> /tmp/stderr0"
 exit \$?
 EOF
 chmod 755 runit.sh
@@ -193,9 +195,15 @@ elif [ "$ret" -ne "0" ]; then
   exit 2
 fi
 
+stderr=`head -n 1 stderr0`
+if [ "$stderr" != "" ]; then
+  echo $stderr
+  exit 2
+fi
+
 echo "Collecting time..."
 for run in $(seq 1 $nruns); do
-  { ssh mic0 'LD_LIBRARY_PATH=/opt/intel/composerxe/lib/mic/ time -p /tmp/run.exe < /tmp/stdin0 > /dev/null' ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
+  { ssh mic0 'LD_LIBRARY_PATH=$MIC_LD_PATH time -p /tmp/run.exe < /tmp/stdin0 > /dev/null' ; } 2>&1 | grep real | xargs | cut -d " " -f 2 &>> times.txt
 done
 awk -f - times.txt <<-EOF >> times.txt
 {
