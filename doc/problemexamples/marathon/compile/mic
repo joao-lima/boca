@@ -54,13 +54,17 @@ if [ ! -r "$1" ]; then
     echo "$1 not found or it's not readable"
     exit 44
 fi
+
 mkdir -p src
+cd src
 if [ "${name##*.}" == "zip" -o "${name##*.}" == "ZIP" ]; then
-	unzip "$name" -d src &> team_output
+	unzip "../$name" -d ./ &> ../team_output
 	name="*.c"
 else
-	cp "$name" src &> team_output
+	cp "../$name" ./ &> ../team_output
 fi
+cd ..
+
 id -u bocajail >/dev/null 2>/dev/null
 if [ $? == 0 ]; then
 	bocau=`id -u bocajail`
@@ -97,7 +101,8 @@ time=2
 else
 time=$3
 fi
-let "ttime = $time + 30"
+printf -v ttime %.0f "$time"
+ttime=$((ttime + 30))
 
 if [ "$2" == "" ]; then
   exe=run.exe

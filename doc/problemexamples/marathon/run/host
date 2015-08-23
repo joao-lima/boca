@@ -80,8 +80,10 @@ if [ ! -x $sf ]; then
 fi
 
 time=$3
+printf -v int_time %.0f "$time"
+time=$((int_time + 1))
 if [ "$time" -gt "0" ]; then
-  let "ttime = $time + 30"
+  ttime=$((ttime + 30))
 else
   time=1
   ttime=30
@@ -119,9 +121,6 @@ cdir=`pwd`
 echo "Current directory is $cdir -- chrooting on it"
 echo "Running $sf to check execution"
 echo "$sf -p -a -F11 -f$maxf -r1 -n1 -R$cdir -C. -U$bocau -G$bocag -ostdout0 -estderr0 -d$maxm -m$maxm -t$time -T$ttime -istdin0 ./run.exe ----> NOT WORKING!!!! WHY!?!?!"
-
-printf -v int_time %.0f "$time"
-time = $((int_time + 1))
 
 cat <<EOF > runit.sh
 #!/bin/bash

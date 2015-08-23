@@ -81,8 +81,10 @@ if [ ! -x $sf ]; then
 fi
 
 time=$3
+printf -v int_time %.0f "$time"
+time=$((int_time + 1))
 if [ "$time" -gt "0" ]; then
-  let "ttime = $time + 30"
+  ttime=$((ttime + 30))
 else
   time=1
   ttime=30
