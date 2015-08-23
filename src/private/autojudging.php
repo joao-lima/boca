@@ -311,11 +311,12 @@ echo "Executing " . $ex . " at " . getcwd() . "\n";
 if(system($ex, $retval)===false) $retval=-1;
 
 if(is_readable('stdout')) {
-    system('/bin/echo ##### COMPILATION STDOUT: >> allerr');
-	system('/bin/cat stdout >> allerr');
+    system('/bin/echo ##### COMPILATION STDOUT: >> allout');
+	system('/bin/cat stdout >> allout');
 }
 if(is_readable('stderr')) {
-    system('/bin/echo ##### COMPILATION STDERR: >> allerr');
+	system('/bin/echo ##### COMPILATION STDERR: >> allout');
+	system('/bin/cat stderr >> allout');
 	system('/bin/cat stderr >> allerr');
 }
 

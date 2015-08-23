@@ -56,10 +56,10 @@ if [ ! -r "$1" ]; then
 fi
 mkdir -p src
 if [ "${name##*.}" == "zip" -o "${name##*.}" == "ZIP" ]; then
-	unzip "$name" -d src
+	unzip "$name" -d src &> team_output
 	name="*.c"
 else
-	cp "$name" src
+	cp "$name" src &> team_output
 fi
 id -u bocajail >/dev/null 2>/dev/null
 if [ $? == 0 ]; then
@@ -93,7 +93,7 @@ fi
 
 # setting up the timelimit according to the problem
 if [ "$3" == "" ]; then
-time=5
+time=2
 else
 time=$3
 fi
@@ -129,7 +129,7 @@ EOF
 chmod 755 compileit.sh
 
 cdir=`pwd`
-echo "Current directory is $cdir" >&2
+echo "Current directory is $cdir"
 echo $cdir | grep -q "/bocajail"
 if [ $? == 0 ]; then
     cdir=`echo $cdir | sed "s/.*\/bocajail//"`
@@ -166,15 +166,19 @@ if [ -f "stdout0" ]; then
 fi
 if [ -f "stderr0" ]; then
 	cat "stderr0"
+	cat "stderr0" &>> team_output
 fi
 rm -rf src/
+# script compileit.sh failed
 if [ "$ret" != "0" ]; then
 	echo "Compilation Error: $ret"
 	exit $ret
 fi
+# compilation inside script failed
 ret=`cat compileit.retcode`
 if [ "$ret" != "0" ]; then
 	echo "Compilation Error: $ret"
+	cat "team_output" 1>&2
 	ret=1
 fi
 exit $ret
