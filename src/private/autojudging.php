@@ -442,7 +442,6 @@ if($retval != 0) {
 				}
 				system('/bin/echo ##### STDERR FOR FILE ' . escapeshellarg($file) . ' >> ' . $dir . $ds . 'allerr');
 				system('/bin/cat stderr >> ' . $dir . $ds . 'allerr');
-				system('/bin/cat stdout0 > ' . $dir . $ds . 'team' . $ds . escapeshellarg($file));
 				system('/bin/echo ##### STDOUT FOR FILE ' . escapeshellarg($file) . ' >> ' . $dir . $ds . 'allout');
 				system('/bin/cat stdout >> ' . $dir . $ds . 'allout');
 				system('/bin/cat stderr >> ' . $dir . $ds . 'allout');
@@ -452,6 +451,8 @@ if($retval != 0) {
 					$answer = "(WHILE RUNNING) " . $answer;
 					break;
 				}
+				system('/bin/cat stdout0 > ' . $dir . $ds . 'team' . $ds . escapeshellarg($file));
+				$comparing = true;
 
 				if(is_file($dir . $ds . 'output' . $ds . $file)) {
 					@unlink($dir . $ds . 'compout');
@@ -623,7 +624,7 @@ if($retval == 0 || $retval > 9) {
 	$retval = 7;
 } else if($retval == 1) {
 	system('/bin/cat compout.err >> ' . $dir . $ds . 'allerr');
-} else {
+} else if(isset($comparing)) {
 	system('/bin/cat compout.err >> ' . $dir . $ds . 'allout');
 	system('/bin/echo Output unavailable > '. $dir . $ds . 'allerr');
 }

@@ -117,6 +117,18 @@ if [ "$?" != "0" ]; then
 #  exit 47
 fi
 
+relf=`which readelf`
+[ -x "$relf" ] || relf=/usr/bin/readelf
+if [ ! -x "$relf" ]; then
+  echo "$relf not found or it's not executable"
+  exit 47
+fi
+mchn=`$relf -h run.exe | grep Machine | awk '{print $3}'`
+if [ "$mchn" == "K1OM" ] || [ "$mchn" == "0xb5" ]; then
+  echo "Runtime error: not a x86 binary compatible." >&2
+  exit 2
+fi
+
 cdir=`pwd`
 echo "Current directory is $cdir -- chrooting on it"
 echo "Running $sf to check execution"
