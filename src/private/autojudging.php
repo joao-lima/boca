@@ -447,7 +447,7 @@ if($retval != 0) {
 				}
 				system('/bin/echo ##### STDERR FOR FILE ' . escapeshellarg($file) . ' >> ' . $dir . $ds . 'allerr');
 				system('/bin/cat stderr >> ' . $dir . $ds . 'allerr');
-				system('/bin/cat stdout > ' . $dir . $ds . 'team' . $ds . escapeshellarg($file));
+				system('/bin/cat stdout0 > ' . $dir . $ds . 'team' . $ds . escapeshellarg($file));
 				system('/bin/echo ##### STDOUT FOR FILE ' . escapeshellarg($file) . ' >> ' . $dir . $ds . 'allout');
 				system('/bin/cat stdout >> ' . $dir . $ds . 'allout');
 				system('/bin/cat stderr >> ' . $dir . $ds . 'allout');
@@ -467,7 +467,7 @@ if($retval != 0) {
 					if(system($ex, $localretval)===false)
 						$localretval = -1;
 
-					$fp = fopen($dir . $ds . "allerr", "a+");
+					$fp = fopen($dir . $ds . "compout.err", "a+");
 					fwrite($fp, "\n\n===OUTPUT OF COMPARING SCRIPT FOLLOWS FOR FILE " .$file ." (EMPTY MEANS NO DIFF)===\n");
 					$dif = file($dir . $ds . "compout");
 					$difi = 0;
@@ -494,7 +494,7 @@ if($retval != 0) {
 							fclose($handle);
 						} else {
 							echo "==> ERROR opening execution time file " . $dir . $ds . "times.txt - skipping it!\n";
-							$$executiontime = 0.0;
+							$executiontime = 0.0;
 						}
 					} else {
 						echo "==> ERROR reading execution time file " . $dir . $ds . "times.txt - skipping it!\n";
@@ -634,6 +634,11 @@ if($retval == 0 || $retval > 9) {
 	$answer = "(check output files - unusual code: $retval) " . $anstmp;
 	// contact staff
 	$retval = 7;
+} else if($retval == 1) {
+	system('/bin/cat compout.err >> ' . $dir . $ds . 'allerr');
+} else {
+	system('/bin/cat compout.err >> ' . $dir . $ds . 'allout');
+	system('/bin/echo Output unavailable > '. $dir . $ds . 'allerr');
 }
 
 echo "Sending results to server...\n";
