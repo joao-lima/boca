@@ -123,7 +123,7 @@ fi
 if [ ! -x "$relf" ]; then
   relf=`which readelf`
   [ -x "$relf" ] || relf=/usr/bin/readelf
-  if [ ! -x "relf" ]; then
+  if [ ! -x "$relf" ]; then
     echo "$relf not found or it's not executable"
     exit 47
   fi
