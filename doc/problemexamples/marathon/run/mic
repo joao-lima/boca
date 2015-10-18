@@ -57,6 +57,10 @@ if [ "$bocau" == "" -o "$bocag" == "" ]; then
 	exit 43
 fi
 
+echo "Copying submition files to 'tmp'"
+cp ../src/* .
+cp ../src/.* .
+
 # this script makes use of safeexec to execute the code with less privilegies
 # make sure that directories below are correct.
 sfexec="safeexec.MIC"
@@ -82,7 +86,7 @@ fi
 
 time=$3
 printf -v int_time %.0f "$time"
-time=$((int_time + 1))
+time=$((int_time + 5))
 if [ "$time" -gt "0" ]; then
   ttime=$((ttime + 30))
 else
@@ -128,11 +132,15 @@ if [ ! -x "$relf" ]; then
     exit 47
   fi
 fi
-mchn=`$relf -h run.exe | grep Machine | awk '{print $3}'`
-if [ "$mchn" != "K1OM" ] && [ "$mchn" != "0xb5" ]; then
-  echo "Runtime error: not a Xeon Phi binary compatible." >&2
-  exit 2
-fi 
+for file in ./*; do
+  if [ -x $file ]; then
+    mchn=`$relf -h run.exe | grep Machine | awk '{print $3}'`
+    if [ "$mchn" != "K1OM" ] && [ "$mchn" != "0xb5" ]; then
+      echo "Runtime error: not a Xeon Phi binary compatible." >&2
+      exit 2
+    fi
+  fi
+done
 
 echo "Copying files to mic0"
 scp $sf mic0:/tmp/
@@ -195,11 +203,14 @@ elif [ "$ret" -ne "0" ]; then
   exit 2
 fi
 
+cp stdout0 ../
+
 stderr=`head -n 1 stderr0`
 if [ "$stderr" != "" ]; then
   echo $stderr
   exit 2
 fi
+cp stderr0 ../
 
 echo "Collecting time..."
 for run in $(seq 1 $nruns); do

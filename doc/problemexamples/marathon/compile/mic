@@ -128,7 +128,6 @@ if [ "\$ret" != "0" ]; then
   echo \$ret > ../compileit.retcode
   exit 0
 fi
-cp ./$exe ../
 echo \$? > ../compileit.retcode
 exit 0
 EOF
@@ -174,7 +173,7 @@ if [ -f "stderr0" ]; then
 	cat "stderr0"
 	cat "stderr0" &>> team_output
 fi
-rm -rf src/
+
 # script compileit.sh failed
 if [ "$ret" != "0" ]; then
 	echo "Compilation Error: $ret"
