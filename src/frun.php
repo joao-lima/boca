@@ -407,7 +407,7 @@ function DBGetRunToAnswerC($number,$site,$contest,$chief) {
 			 "(site=".$_SESSION["usertable"]["usersitenumber"] .")).", 3);
 	return $a;
 }
-function DBGetRunToAutojudging($contest, $ip) {
+function DBGetRunToAutojudging($contest, $ip, $extensions = array()) {
 	$c = DBConnect();
 	DBExec($c, "begin work", "DBGetRunToAnswerC(transaction)");
 	$sql = "select r.contestnumber as contest, r.runsitenumber as site, r.runanswer as answer, " .
@@ -431,6 +431,13 @@ function DBGetRunToAutojudging($contest, $ip) {
 		return false;
 	}
 	$a = DBRow($r,0);
+
+  // FIXME remove this roolback and fix the query!
+  if(!empty($extensions) && !in_array($a["extension"], $extensions)) {
+    DBExec($c, "rollback work", "DBGetRunToAutoJudging(rollback)");
+    return false;
+  }
+
 	$t = time();
 
 	DBExec($c, "update runtable set autoip='" . $ip . "', " . 
