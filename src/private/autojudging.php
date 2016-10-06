@@ -82,10 +82,17 @@ $cf = globalconf();
 $ip = $cf["ip"];
 $activecontest=DBGetActiveContest();
 $prevsleep=0;
+if($argc>1) {
+  echo "running autojudge for ";
+  foreach (array_slice($argv, 1) as $value) {
+    echo $value . " ";
+  }
+  echo "\n";
+}
 //$dodebug=1;
 while(42) {
 
-if(($run = DBGetRunToAutojudging($activecontest["contestnumber"], $ip)) === false) {
+if(($run = DBGetRunToAutojudging($activecontest["contestnumber"], $ip, array_slice($argv, 1))) === false) {
   if($prevsleep==0)
     echo "Nothing to do. Sleeping...";
   else
