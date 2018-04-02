@@ -239,7 +239,7 @@ if($redo) {
 			}
 			if($run[$i]['yes']=='t') {
 				$strtmp .= " <img alt=\"".$run[$i]["colorname"]."\" width=\"15\" ".
-					"src=\"../" . balloonurl($run[$i]["color"]) ."\" />";
+					"src=\"" . balloonurl($run[$i]["color"]) ."\" />";
 				$strcolors .= "\t" . $run[$i]["colorname"] . "\t" . $run[$i]["color"];
 			}
 		}

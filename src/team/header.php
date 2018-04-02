@@ -75,7 +75,7 @@ if(file_exists($runtmp)) {
 				}
 			}
 			echo "<img alt=\"".$rn[$i]."\" width=\"10\" ".
-				"src=\"../" . balloonurl($rn[$i+1]) . "\" />\n";
+				"src=\"" . balloonurl($rn[$i+1]) . "\" />\n";
 			$i++;
 		}
 	} else unset($strtmp);
@@ -92,7 +92,7 @@ if($doslow) {
 			}
 		}
 		echo "<img alt=\"".$run[$i]["colorname"]."\" width=\"10\" ".
-			"src=\"../" . balloonurl($run[$i]["color"]) . "\" />\n";
+			"src=\"" . balloonurl($run[$i]["color"]) . "\" />\n";
 	}
 }
 

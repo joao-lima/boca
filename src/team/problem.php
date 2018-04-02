@@ -38,7 +38,7 @@ for ($i=0; $i<count($prob); $i++) {
   echo "  <td nowrap>" . $prob[$i]["problem"];
   if($prob[$i]["color"] != "")
           echo " <img alt=\"".$prob[$i]["colorname"]."\" width=\"20\" ".
-			  "src=\".." . balloonurl($prob[$i]["color"]) ."\" />\n";
+			  "src=\"" . balloonurl($prob[$i]["color"]) ."\" />\n";
   echo "</td>\n";
   echo "  <td nowrap>" . $prob[$i]["basefilename"] . "&nbsp;</td>\n";
   echo "  <td nowrap>" . $prob[$i]["fullname"] . "&nbsp;</td>\n";

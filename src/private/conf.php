@@ -20,6 +20,7 @@
 function globalconf() {
  $conf["dbencoding"]="UTF8";
  $conf["dbclientenc"]="UTF8";
+ $conf['doenc']=false;
 
   $conf["dblocal"]="false"; // use unix socket to connect?
 $conf["dbhost"]="localhost";
@@ -28,10 +29,10 @@ $conf["dbport"]="5432";
   $conf["dbname"]="bocadb"; // name of the boca database
 
   $conf["dbuser"]="bocauser"; // unprivileged boca user
-$conf["dbpass"]="dAm0HAiC";
+$conf["dbpass"]="9prz1mXt8p";
 
   $conf["dbsuperuser"]="bocauser"; // privileged boca user
-$conf["dbsuperpass"]="dAm0HAiC";
+$conf["dbsuperpass"]="9prz1mXt8p";
 
         // note that it is fine to use the same user
 
@@ -46,7 +47,7 @@ $conf["dbsuperpass"]="dAm0HAiC";
 
   // secret key to be used in HTTP headers
   // you MUST set it with any random large enough sequence
-$conf["key"]="GG56KFJtNDBGjJprR6ex";
+$conf["key"]="EqGfINC9hL7vpv9wccXX";
 
 
   // the following field is used by the autojudging script
